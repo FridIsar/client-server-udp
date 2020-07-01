@@ -1,11 +1,11 @@
 import java.io.*;
 import java.net.*;
 
-public class LaunchClient {
+public class OtherClient {
   public static void main(String[] args) {
-  ClientServeurUDP client = new ClientServeurUDP("localhost",50001);
+  ClientServeurUDP client = new ClientServeurUDP("localhost",50002);
 
-  client.envoyerMessage("6",50000);
+  client.envoyerMessage("9",50000);
 
   int number;
   System.out.println("Waiting for answer...");

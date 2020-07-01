@@ -17,28 +17,26 @@ public class ClientServeurUDP {
   public ClientServeurUDP(int portEcoute) {
     try{
       this.port = portEcoute;
-      this.socket = new DatagramSocket(50000);
+      this.socket = new DatagramSocket(portEcoute);
     } catch(Exception e)  {System.out.println(e);}
   }
 
-  public void envoyerMessage(String mesg) {
+  public void envoyerMessage(String mesg, int portDest) {
     try{
       byte[] buf  = mesg.getBytes();
-      DatagramPacket dp = new DatagramPacket(buf, mesg.length(), addresseIPCorrespondant, 50000);
+      DatagramPacket dp = new DatagramPacket(buf, mesg.length(), addresseIPCorrespondant, portDest);
+      System.out.println("sending message to "+portDest);
       this.socket.send(dp);
     } catch(Exception e)  {System.out.println(e);}
   }
 
-  public String recevoirMessage() {
+  public Object[] recevoirMessage() {
     try{
       byte[] buf = new byte[4096];
-      System.out.println("1");
       DatagramPacket dp = new DatagramPacket(buf, 4096);
-      System.out.println("2");
       this.socket.receive(dp);//blocks until a datagram is received
-      System.out.println("3");
-      return new String(dp.getData());
-    } catch(Exception e)  {return ""+e;}
+      return new Object[] {new String(dp.getData()), dp.getPort()};
+    } catch(Exception e)  {return new Object[]  {new String(""+e)};}
   }
 
   public String getAdresseIPCorrespondant() {
